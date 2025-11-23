@@ -2,11 +2,11 @@ services:
   # Backend API Service
   - type: web
     name: shadowid-backend
-    runtime: docker
-    dockerfilePath: ./Dockerfile
+    runtime: node
     rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
     healthCheckPath: /health
-    buildCommand: ""
     envVars:
       - key: NODE_ENV
         value: production
