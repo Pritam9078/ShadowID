@@ -1,0 +1,15 @@
+# Fresh Render configuration for ShadowID Backend
+services:
+  - type: web
+    name: shadowid-backend-v2
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    healthCheckPath: /health
+    plan: starter
+    region: oregon
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
