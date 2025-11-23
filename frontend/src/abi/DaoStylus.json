@@ -1,0 +1,150 @@
+﻿{
+  "_format": "stylus-abi-1", 
+  "contractName": "DvoteDAOStylus",
+  "sourceName": "contracts-stylus/src/lib.rs",
+  "description": "DVote DAO contract implemented in Rust for Arbitrum Stylus with ZK proof integration",
+  "deployment": {
+    "address": "0xe277e471147e42529da6F7f35d729ff43f4c01E5",
+    "network": "arbitrum-sepolia",
+    "chainId": 421614,
+    "txHash": "0x3a1a822d0888eb2f67430e68d12f3c0896ce9a16fce365bf2901de1c055f2d5d",
+    "blockNumber": 217972901,
+    "gasUsed": 53488,
+    "deployedAt": "2025-11-23T06:00:00.000Z"
+  },
+  "abi": [
+    {
+      "type": "function",
+      "name": "join_dao_with_proof",
+      "inputs": [
+        {"name": "user_address", "type": "address"},
+        {"name": "proof_bytes", "type": "bytes"},
+        {"name": "public_inputs", "type": "bytes"}
+      ],
+      "outputs": [{"name": "success", "type": "bool"}],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function", 
+      "name": "create_proposal",
+      "inputs": [
+        {"name": "proposer", "type": "address"},
+        {"name": "title", "type": "string"},
+        {"name": "description", "type": "string"},
+        {"name": "voting_period", "type": "uint256"},
+        {"name": "proof_bytes", "type": "bytes"},
+        {"name": "public_inputs", "type": "bytes"}
+      ],
+      "outputs": [{"name": "proposal_id", "type": "uint256"}],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "vote_on_proposal", 
+      "inputs": [
+        {"name": "proposal_id", "type": "uint256"},
+        {"name": "voter", "type": "address"},
+        {"name": "support", "type": "uint8"},
+        {"name": "proof_bytes", "type": "bytes"},
+        {"name": "public_inputs", "type": "bytes"}
+      ],
+      "outputs": [{"name": "success", "type": "bool"}],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "execute_proposal",
+      "inputs": [
+        {"name": "proposal_id", "type": "uint256"},
+        {"name": "executor", "type": "address"}
+      ],
+      "outputs": [{"name": "success", "type": "bool"}],
+      "stateMutability": "nonpayable"
+    },
+    {
+      "type": "function",
+      "name": "verify_zk_proof",
+      "inputs": [
+        {"name": "proof_json", "type": "bytes"},
+        {"name": "vk_json", "type": "bytes"}
+      ],
+      "outputs": [{"name": "valid", "type": "bool"}],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "is_verified_member",
+      "inputs": [
+        {"name": "user", "type": "address"}
+      ],
+      "outputs": [{"name": "verified", "type": "bool"}],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "get_proposal",
+      "inputs": [
+        {"name": "proposal_id", "type": "uint256"}
+      ],
+      "outputs": [
+        {"name": "id", "type": "uint256"},
+        {"name": "proposer", "type": "address"},
+        {"name": "title", "type": "string"},
+        {"name": "description", "type": "string"},
+        {"name": "votes_for", "type": "uint256"},
+        {"name": "votes_against", "type": "uint256"},
+        {"name": "votes_abstain", "type": "uint256"},
+        {"name": "start_time", "type": "uint256"},
+        {"name": "end_time", "type": "uint256"},
+        {"name": "executed", "type": "bool"}
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "get_total_proposals",
+      "inputs": [],
+      "outputs": [{"name": "count", "type": "uint256"}],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function", 
+      "name": "get_user_vote",
+      "inputs": [
+        {"name": "proposal_id", "type": "uint256"},
+        {"name": "user", "type": "address"}
+      ],
+      "outputs": [
+        {"name": "has_voted", "type": "bool"},
+        {"name": "support", "type": "uint8"}
+      ],
+      "stateMutability": "view"
+    },
+    {
+      "type": "function",
+      "name": "set_verification_policy",
+      "inputs": [
+        {"name": "policy_flags", "type": "uint32"}
+      ],
+      "outputs": [{"name": "success", "type": "bool"}],
+      "stateMutability": "nonpayable"
+    }
+  ],
+  "stylusInfo": {
+    "wasmOptimized": true,
+    "gasEstimates": {
+      "join_dao_with_proof": 150000,
+      "create_proposal": 200000,
+      "vote_on_proposal": 100000,
+      "execute_proposal": 80000,
+      "verify_zk_proof": 120000
+    },
+    "features": [
+      "zk_proof_verification",
+      "noir_integration", 
+      "poseidon_hashing",
+      "governance_voting",
+      "proposal_management"
+    ]
+  }
+}

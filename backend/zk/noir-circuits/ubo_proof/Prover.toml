@@ -1,0 +1,32 @@
+# Default Prover inputs - Merkle inclusion mode
+commitment_root = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+threshold_pct = "2500"
+claimed_owner_index = "0"
+claimed_count = "0"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "1"
+
+owner_shares = [
+    "3000", "2000", "1500", "1500", "2000",
+    "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"
+]
+
+owner_salts = [
+    "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+    "0x2345678901bcdefg2345678901bcdefg2345678901bcdefg2345678901bcdefg",
+    "0x3456789012cdefgh3456789012cdefgh3456789012cdefgh3456789012cdefgh",
+    "0x4567890123defghi4567890123defghi4567890123defghi4567890123defghi",
+    "0x567890134efghij567890134efghij567890134efghij567890134efghij5",
+    "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"
+]
+
+owner_ids = [
+    "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+    "0xbcdefg2345678901bcdefg2345678901bcdefg2345678901bcdefg2345678901",
+    "0xcdefgh3456789012cdefgh3456789012cdefgh3456789012cdefgh3456789012",
+    "0xdefghi4567890123defghi4567890123defghi4567890123defghi4567890123",
+    "0xefghij567890134efghij567890134efghij567890134efghij567890134e",
+    "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"
+]
+
+actual_ubo_count = "5"

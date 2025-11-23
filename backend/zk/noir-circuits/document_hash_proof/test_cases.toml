@@ -1,0 +1,174 @@
+# Comprehensive Test Cases for Document Hash Proof Circuit
+# Tests various document types and verification scenarios
+
+[test_case_1.valid_incorporation_cert]
+# Valid incorporation certificate with type verification
+doc_commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+doc_type_code = "1"               # Incorporation certificate
+enable_type_check = "1"
+doc_hash_raw = "12345678901234567890123456789012345678901234567890123456789012345"
+salt = "9876543210987654321098765432109876543210987654321098765432109876543210"
+expected_doc_type = "1"
+expected_result = "pass"
+description = "Valid incorporation certificate with type verification"
+
+[test_case_2.valid_business_license]
+# Valid business license verification
+doc_commitment = "0x2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8092"
+doc_type_code = "2"               # Business license
+enable_type_check = "1"
+doc_hash_raw = "23456789012345678901234567890123456789012345678901234567890123456"
+salt = "8765432109876543210987654321098765432109876543210987654321098765432109"
+expected_doc_type = "2"
+expected_result = "pass"
+description = "Valid business license verification"
+
+[test_case_3.valid_audit_report]
+# Valid audit report without type verification
+doc_commitment = "0x3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8093"
+doc_type_code = "4"               # Audit report
+enable_type_check = "0"           # Type check disabled
+doc_hash_raw = "34567890123456789012345678901234567890123456789012345678901234567"
+salt = "7654321098765432109876543210987654321098765432109876543210987654321098"
+expected_doc_type = "4"           # Not checked when enable_type_check = 0
+expected_result = "pass"
+description = "Valid audit report without type verification"
+
+[test_case_4.invalid_wrong_commitment]
+# Invalid case: Commitment doesn't match hash/salt
+doc_commitment = "0x0000000000000000000000000000000000000000000000000000000000000001"
+doc_type_code = "1"
+enable_type_check = "1"
+doc_hash_raw = "12345678901234567890123456789012345678901234567890123456789012345"
+salt = "9876543210987654321098765432109876543210987654321098765432109876543210"
+expected_doc_type = "1"
+expected_result = "fail"
+description = "Commitment mismatch should fail verification"
+
+[test_case_5.invalid_wrong_doc_type]
+# Invalid case: Document type mismatch
+doc_commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+doc_type_code = "1"               # Public: incorporation cert
+enable_type_check = "1"
+doc_hash_raw = "12345678901234567890123456789012345678901234567890123456789012345"
+salt = "9876543210987654321098765432109876543210987654321098765432109876543210"
+expected_doc_type = "2"           # Private: business license (mismatch)
+expected_result = "fail"
+description = "Document type mismatch should fail when type check enabled"
+
+[test_case_6.invalid_zero_salt]
+# Invalid case: Zero salt (security vulnerability)
+doc_commitment = "0x4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8094"
+doc_type_code = "3"
+enable_type_check = "1"
+doc_hash_raw = "45678901234567890123456789012345678901234567890123456789012345678"
+salt = "0"                        # Zero salt (security issue)
+expected_doc_type = "3"
+expected_result = "fail"
+description = "Zero salt should be rejected for security"
+
+[test_case_7.invalid_zero_hash]
+# Invalid case: Zero document hash
+doc_commitment = "0x5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8095"
+doc_type_code = "5"
+enable_type_check = "1"
+doc_hash_raw = "0"                # Zero hash (invalid document)
+salt = "6543210987654321098765432109876543210987654321098765432109876543210987"
+expected_doc_type = "5"
+expected_result = "fail"
+description = "Zero document hash should be rejected"
+
+[test_case_8.invalid_excessive_doc_type]
+# Invalid case: Document type exceeds maximum
+doc_commitment = "0x6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8096"
+doc_type_code = "150"             # Exceeds MAX_DOC_TYPE (99)
+enable_type_check = "1"
+doc_hash_raw = "56789012345678901234567890123456789012345678901234567890123456789"
+salt = "5432109876543210987654321098765432109876543210987654321098765432109876"
+expected_doc_type = "150"
+expected_result = "fail"
+description = "Document type exceeding maximum should be rejected"
+
+[test_case_9.valid_financial_statement]
+# Valid financial statement verification
+doc_commitment = "0x708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8097"
+doc_type_code = "5"               # Financial statement
+enable_type_check = "1"
+doc_hash_raw = "67890123456789012345678901234567890123456789012345678901234567890"
+salt = "4321098765432109876543210987654321098765432109876543210987654321098765"
+expected_doc_type = "5"
+expected_result = "pass"
+description = "Valid financial statement verification"
+
+[test_case_10.valid_compliance_cert]
+# Valid compliance certificate
+doc_commitment = "0x08192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8098"
+doc_type_code = "6"               # Compliance certificate
+enable_type_check = "1"
+doc_hash_raw = "78901234567890123456789012345678901234567890123456789012345678901"
+salt = "3210987654321098765432109876543210987654321098765432109876543210987654"
+expected_doc_type = "6"
+expected_result = "pass"
+description = "Valid compliance certificate verification"
+
+[test_case_11.valid_identity_document]
+# Valid identity document verification
+doc_commitment = "0x8192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8099"
+doc_type_code = "8"               # Identity document
+enable_type_check = "1"
+doc_hash_raw = "89012345678901234567890123456789012345678901234567890123456789012"
+salt = "2109876543210987654321098765432109876543210987654321098765432109876543"
+expected_doc_type = "8"
+expected_result = "pass"
+description = "Valid identity document verification"
+
+[test_case_12.valid_other_document_type]
+# Valid document with "other" type classification
+doc_commitment = "0x192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809a"
+doc_type_code = "99"              # Other document type
+enable_type_check = "1"
+doc_hash_raw = "90123456789012345678901234567890123456789012345678901234567890123"
+salt = "1098765432109876543210987654321098765432109876543210987654321098765432"
+expected_doc_type = "99"
+expected_result = "pass"
+description = "Valid document with 'other' type classification"
+
+[test_case_13.invalid_type_check_flag]
+# Invalid case: Invalid type check flag
+doc_commitment = "0x92a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809b"
+doc_type_code = "1"
+enable_type_check = "2"           # Invalid flag (should be 0 or 1)
+doc_hash_raw = "01234567890123456789012345678901234567890123456789012345678901234"
+salt = "0987654321098765432109876543210987654321098765432109876543210987654321"
+expected_doc_type = "1"
+expected_result = "fail"
+description = "Invalid type check flag should be rejected"
+
+[test_case_14.valid_no_type_verification]
+# Valid case: Document verification without type checking
+doc_commitment = "0x2a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809c"
+doc_type_code = "7"               # Registration form
+enable_type_check = "0"           # Type checking disabled
+doc_hash_raw = "11234567890123456789012345678901234567890123456789012345678901234"
+salt = "9876543210987654321098765432109876543210987654321098765432109876543210"
+expected_doc_type = "3"           # Different from public type, but not checked
+expected_result = "pass"
+description = "Valid verification with type checking disabled"
+
+[test_case_15.valid_ownership_proof]
+# Valid ownership proof document
+doc_commitment = "0xa3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809d"
+doc_type_code = "9"               # Ownership proof
+enable_type_check = "1"
+doc_hash_raw = "21234567890123456789012345678901234567890123456789012345678901235"
+salt = "8765432109876543210987654321098765432109876543210987654321098765432109"
+expected_doc_type = "9"
+expected_result = "pass"
+description = "Valid ownership proof document verification"
+
+# Instructions for testing:
+# 1. Copy individual test case to Prover.toml
+# 2. Run: nargo prove
+# 3. Verify expected_result matches actual outcome
+# 4. For "pass" cases, proof should generate successfully
+# 5. For "fail" cases, circuit should reject with assertion error

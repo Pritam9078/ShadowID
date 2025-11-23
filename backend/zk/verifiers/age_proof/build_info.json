@@ -1,0 +1,6 @@
+{ 
+  "circuit_name": "age_proof", 
+  "compiled_at": "22-11-2025 19:20:41.75", 
+  "platform": "Windows", 
+  "nargo_cmd": "C:\Users\HP\Downloads\DVote-main\DVote-main\scripts\..\zk\noir-circuits\nargo.bat" 
+} 

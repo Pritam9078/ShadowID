@@ -1,0 +1,38 @@
+{
+  "name": "shadowid-zk-circuits",
+  "version": "1.0.0",
+  "description": "Noir ZK circuits for ShadowID privacy-preserving identity verification system",
+  "type": "module",
+  "scripts": {
+    "nargo": "node nargo.js",
+    "build": "node nargo.js compile",
+    "test": "node nargo.js test",
+    "prove": "node nargo.js prove",
+    "verify": "node nargo.js verify",
+    "compile-integration": "tsc --project .",
+    "run-integration": "node dist/integration_example.js",
+    "build-all": "node nargo.js compile age_proof && node nargo.js compile citizenship_proof && node nargo.js compile attribute_proof",
+    "test-all": "node nargo.js test age_proof && node nargo.js test citizenship_proof && node nargo.js test attribute_proof"
+  },
+  "dependencies": {
+    "@noir-lang/backend_barretenberg": "^0.17.0",
+    "@noir-lang/noir_js": "^0.17.0",
+    "ethers": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/form-data": "^2.2.1",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "noir",
+    "zk-proofs",
+    "identity",
+    "privacy",
+    "blockchain",
+    "ethereum",
+    "arbitrum"
+  ],
+  "author": "ShadowID Team",
+  "license": "MIT"
+}

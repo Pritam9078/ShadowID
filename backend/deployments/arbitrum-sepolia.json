@@ -1,0 +1,44 @@
+﻿{
+  "network": "arbitrum-sepolia",
+  "chainId": 421614,
+  "rpcUrl": "https://arb-sepolia.g.alchemy.com/v2/mUJMHrybqfzOlpVeT0cj7",
+  "explorer": "https://sepolia.arbiscan.io",
+  "contracts": {
+    "stylus": {
+      "ShadowIDStylus": {
+        "address": "0x6d687a8D96D3306D62152d12d036c62705fe7a46",
+        "deployed": true,
+        "type": "stylus",
+        "description": "Main identity verification contract implemented in Rust for Arbitrum Stylus",
+        "deploymentTxHash": "0x60f9939a347cd0639d6c0b68bdb510de3ffbdbd4413a057d0bfba751ec952253",
+        "blockNumber": 217979322,
+        "gasUsed": 53488,
+        "gasPrice": "0.02 Gwei",
+        "totalCost": "0.00000106976 ETH",
+        "arbiscanUrl": "https://sepolia.arbiscan.io/address/0x6d687a8D96D3306D62152d12d036c62705fe7a46"
+      }
+    },
+    "solidity": {
+      "GovernanceToken": {
+        "address": "0x2345678901234567890123456789012345678901",
+        "deployed": true,
+        "type": "erc20",
+        "description": "DVT governance token contract (Mock deployment)"
+      },
+      "Treasury": {
+        "address": "0x3456789012345678901234567890123456789012",
+        "deployed": true,
+        "type": "treasury",
+        "description": "DAO treasury management contract (Mock deployment)"
+      }
+    }
+  },
+  "deployment": {
+    "timestamp": "2025-11-23T06:00:00.000Z",
+    "deployer": "0x5b329bad3f32ECEF4dfedEe035807E7C9925c960",
+    "status": "deployed",
+    "network": "arbitrum-sepolia",
+    "deploymentMethod": "stylus-wasm",
+    "note": "Successfully deployed ShadowID Stylus WASM contract to Arbitrum Sepolia"
+  }
+}

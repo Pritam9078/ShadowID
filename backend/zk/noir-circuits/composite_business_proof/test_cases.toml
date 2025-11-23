@@ -1,0 +1,309 @@
+# Comprehensive test cases for Composite Business Proof Circuit
+
+[test_cases]
+
+# ============== VALID TEST CASES ==============
+
+[[test_cases.valid]]
+name = "Full Compliance Proof"
+description = "Complete business verification with all checks enabled including wallet binding"
+policy_id = "15"  # 0xF = All checks + wallet binding
+expected_commitments = 4
+features = ["registration", "ubo", "revenue", "document", "wallet_binding"]
+
+[[test_cases.valid]]
+name = "Basic Business Registration"
+description = "Simple business registration verification only"
+policy_id = "1"   # 0x1 = Registration only
+expected_commitments = 1
+features = ["registration"]
+
+[[test_cases.valid]]
+name = "Financial Compliance Check"
+description = "UBO ownership and revenue threshold verification"
+policy_id = "6"   # 0x6 = UBO + Revenue
+expected_commitments = 2
+features = ["ubo", "revenue"]
+
+[[test_cases.valid]]
+name = "Basic Business Verification"
+description = "Standard business verification without document requirements"
+policy_id = "7"   # 0x7 = Registration + UBO + Revenue
+expected_commitments = 3
+features = ["registration", "ubo", "revenue"]
+
+[[test_cases.valid]]
+name = "Document Verification Only"
+description = "Verify specific document possession"
+policy_id = "8"   # 0x8 = Document only
+expected_commitments = 1
+features = ["document"]
+
+[[test_cases.valid]]
+name = "UBO Merkle Proof Mode"
+description = "UBO verification using Merkle tree inclusion"
+policy_id = "2"   # 0x2 = UBO only
+ubo_proof_mode = "merkle"
+expected_commitments = 1
+features = ["ubo_merkle"]
+
+[[test_cases.valid]]
+name = "Revenue with Maximum Cap"
+description = "Revenue verification with both minimum and maximum thresholds"
+policy_id = "4"   # 0x4 = Revenue only
+revenue_has_cap = true
+expected_commitments = 1
+features = ["revenue_capped"]
+
+[[test_cases.valid]]
+name = "High Revenue Scaling"
+description = "Revenue verification with mills precision (1000x scaling)"
+policy_id = "4"   # 0x4 = Revenue only
+revenue_scaling = "mills"
+expected_commitments = 1
+features = ["revenue_mills"]
+
+[[test_cases.valid]]
+name = "Registration with Wallet Binding"
+description = "Registration verification with anti-replay wallet binding"
+policy_id = "17"  # 0x11 = Registration + Wallet binding
+expected_commitments = 1
+features = ["registration", "wallet_binding"]
+
+# ============== INVALID TEST CASES ==============
+
+[[test_cases.invalid]]
+name = "Invalid Policy ID"
+description = "Policy ID exceeds supported range (>31)"
+policy_id = "32"
+error_type = "policy_validation"
+expected_error = "Policy ID out of range"
+
+[[test_cases.invalid]]
+name = "Zero Policy ID"  
+description = "Policy ID is zero (no checks enabled)"
+policy_id = "0"
+error_type = "policy_validation"
+expected_error = "No checks enabled"
+
+[[test_cases.invalid]]
+name = "Zero Nonce"
+description = "Anti-replay nonce cannot be zero"
+nonce = "0"
+error_type = "nonce_validation"
+expected_error = "Invalid nonce"
+
+[[test_cases.invalid]]
+name = "Commitment Mismatch"
+description = "Provided commitment doesn't match computed value"
+policy_id = "1"
+commitment_corruption = true
+error_type = "commitment_validation"
+expected_error = "Commitment verification failed"
+
+[[test_cases.invalid]]
+name = "Insufficient UBO Ownership"
+description = "Total UBO ownership below required threshold"
+policy_id = "2"
+ubo_total_ownership = "20"  # Below 25% threshold
+error_type = "ubo_validation"
+expected_error = "Ownership threshold not met"
+
+[[test_cases.invalid]]
+name = "Revenue Below Threshold"
+description = "Revenue amount below minimum requirement"
+policy_id = "4"
+revenue_below_minimum = true
+error_type = "revenue_validation"
+expected_error = "Revenue threshold not met"
+
+[[test_cases.invalid]]
+name = "Revenue Above Cap"
+description = "Revenue amount exceeds maximum allowed"
+policy_id = "4"
+revenue_above_maximum = true
+error_type = "revenue_validation" 
+expected_error = "Revenue exceeds maximum"
+
+[[test_cases.invalid]]
+name = "Document Type Mismatch"
+description = "Document type doesn't match requirement"
+policy_id = "8"
+doc_type_mismatch = true
+error_type = "document_validation"
+expected_error = "Document type mismatch"
+
+[[test_cases.invalid]]
+name = "Expired Registration"
+description = "Business registration has expired"
+policy_id = "1"
+registration_expired = true
+error_type = "registration_validation"
+expected_error = "Registration expired"
+
+[[test_cases.invalid]]
+name = "Invalid Merkle Proof"
+description = "UBO Merkle inclusion proof is invalid"
+policy_id = "2"
+ubo_proof_mode = "merkle"
+merkle_proof_invalid = true
+error_type = "merkle_validation"
+expected_error = "Merkle proof verification failed"
+
+[[test_cases.invalid]]
+name = "Wallet Binding Mismatch"
+description = "Wallet binding verification fails"
+policy_id = "17"  # Registration + Wallet binding
+wallet_binding_invalid = true
+error_type = "wallet_validation"
+expected_error = "Wallet binding verification failed"
+
+[[test_cases.invalid]]
+name = "Zero Salt in Registration"
+description = "Registration salt cannot be zero"
+policy_id = "1"
+zero_salt = "registration"
+error_type = "input_validation"
+expected_error = "Invalid salt"
+
+[[test_cases.invalid]]
+name = "Revenue Overflow"
+description = "Revenue scaling causes arithmetic overflow"
+policy_id = "4"
+revenue_overflow = true
+error_type = "arithmetic_validation"
+expected_error = "Arithmetic overflow"
+
+[[test_cases.invalid]]
+name = "Excessive Commitments"
+description = "Too many non-zero commitments provided"
+policy_id = "1"
+excessive_commitments = true
+error_type = "commitment_validation"
+expected_error = "Unexpected commitments"
+
+[[test_cases.invalid]]
+name = "Future Fiscal Year"
+description = "Revenue fiscal year is in the future"
+policy_id = "4"
+fiscal_year_future = true
+error_type = "temporal_validation"
+expected_error = "Invalid fiscal year"
+
+# ============== EDGE CASES ==============
+
+[[test_cases.edge]]
+name = "Maximum UBO Count"
+description = "All 20 UBO slots utilized"
+policy_id = "2"
+max_ubos = true
+features = ["ubo_full_capacity"]
+
+[[test_cases.edge]]
+name = "Minimum Revenue Threshold"
+description = "Revenue exactly meets minimum threshold"
+policy_id = "4"  
+revenue_exact_minimum = true
+features = ["revenue_boundary"]
+
+[[test_cases.edge]]
+name = "Maximum Revenue Cap"
+description = "Revenue exactly at maximum allowed"
+policy_id = "4"
+revenue_exact_maximum = true
+features = ["revenue_boundary"]
+
+[[test_cases.edge]]
+name = "25% UBO Threshold Boundary"
+description = "UBO ownership exactly at 25% threshold"
+policy_id = "2"
+ubo_exact_threshold = true
+features = ["ubo_boundary"]
+
+[[test_cases.edge]]
+name = "Single Day Registration Validity"
+description = "Registration expires in 1 day"
+policy_id = "1"
+registration_near_expiry = true
+features = ["temporal_boundary"]
+
+[[test_cases.edge]]
+name = "High Precision Revenue"
+description = "Revenue with maximum decimal precision"
+policy_id = "4"
+revenue_high_precision = true
+features = ["precision_boundary"]
+
+[[test_cases.edge]]
+name = "Composite Policy Combinations"
+description = "Test all valid policy bit combinations"
+policy_id = "varies"
+test_all_policies = true
+features = ["policy_exhaustive"]
+
+# ============== PERFORMANCE TESTS ==============
+
+[[test_cases.performance]]
+name = "Maximum Circuit Load"
+description = "All features enabled with maximum data"
+policy_id = "15"  # All features
+max_load = true
+expected_constraints = "~25000"
+expected_prove_time = "~5s"
+
+[[test_cases.performance]]
+name = "Minimal Circuit Load"
+description = "Single feature with minimal data"
+policy_id = "1"   # Registration only
+min_load = true
+expected_constraints = "~5000"
+expected_prove_time = "~1s"
+
+# ============== INTEGRATION TESTS ==============
+
+[[test_cases.integration]]
+name = "DAO Proposal Eligibility"
+description = "Verify business eligibility for DAO proposal submission"
+policy_id = "7"   # Basic business verification
+use_case = "dao_governance"
+integration_points = ["proposal_validation", "voting_rights"]
+
+[[test_cases.integration]]
+name = "Investment Due Diligence"
+description = "Comprehensive verification for investment evaluation" 
+policy_id = "15"  # Full compliance
+use_case = "investment_verification"
+integration_points = ["kyb_compliance", "financial_verification", "document_validation"]
+
+[[test_cases.integration]]
+name = "Regulatory Compliance"
+description = "Verify compliance with financial regulations"
+policy_id = "14"  # All except registration (0xE)
+use_case = "regulatory_reporting"
+integration_points = ["aml_compliance", "ubo_disclosure", "financial_reporting"]
+
+# ============== SECURITY TESTS ==============
+
+[[test_cases.security]]
+name = "Replay Attack Prevention"
+description = "Ensure nonce prevents proof reuse"
+attack_type = "replay"
+mitigation = "nonce_binding"
+
+[[test_cases.security]]
+name = "Commitment Binding Security"
+description = "Verify cryptographic binding of private data"
+attack_type = "commitment_manipulation"
+mitigation = "poseidon_binding"
+
+[[test_cases.security]]
+name = "Timing Attack Resistance"
+description = "Constant-time operations for sensitive comparisons"
+attack_type = "timing_analysis"
+mitigation = "constant_time_ops"
+
+[[test_cases.security]]
+name = "Zero-Knowledge Property"
+description = "Ensure no private data leakage in proofs"
+attack_type = "information_leakage"
+mitigation = "zk_soundness"

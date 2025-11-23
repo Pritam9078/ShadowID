@@ -1,0 +1,39 @@
+﻿{
+    "network":  "sepolia",
+    "chainId":  11155111,
+    "deployer":  "0xa62463A56EE9D742F810920F56cEbc4B696eBd0a",
+    "timestamp":  "2025-10-27T20:31:40.997Z",
+    "contracts":  {
+                      "GovernanceToken":  "0x56d7A66F0333455A2F551e21f2b843E1C913bCe9",
+                      "DAO":  "0x0B95403BC5FEb6a7De485C88ad9941Fa74A76b29",
+                      "Treasury":  "0x19050b2EeEF0cB2ec252086053a7cceA395068ca"
+                  },
+    "constructor_args":  {
+                             "GovernanceToken":  {
+                                                     "name":  "ShadowID Token",
+                                                     "symbol":  "DVT",
+                                                     "admin":  "0xa62463A56EE9D742F810920F56cEbc4B696eBd0a",
+                                                     "initialMint":  "1000000000000000000000000"
+                                                 },
+                             "DAO":  {
+                                         "govToken":  "0x56d7A66F0333455A2F551e21f2b843E1C913bCe9",
+                                         "treasury":  "0x0000000000000000000000000000000000000000",
+                                         "initialOwner":  "0xa62463A56EE9D742F810920F56cEbc4B696eBd0a"
+                                     },
+                             "Treasury":  {
+                                              "owner":  "0x0B95403BC5FEb6a7De485C88ad9941Fa74A76b29"
+                                          }
+                         },
+    "block_numbers":  {
+                          "GovernanceToken":  null,
+                          "DAO":  null,
+                          "Treasury":  null
+                      },
+    "stylus":  {
+                   "chainId":  421614,
+                   "status":  "mock-deployed",
+                   "timestamp":  "2025-11-22T23:54:43.045Z",
+                   "contractAddress":  "0x1234567890123456789012345678901234567890",
+                   "network":  "arbitrum-sepolia"
+               }
+}

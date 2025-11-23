@@ -1,0 +1,30 @@
+[package]
+name = "contracts-stylus-windows-fix"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Use older stylus SDK that works on Windows
+stylus-sdk = { version = "0.4.1", default-features = false }
+
+# Minimal primitives without keccak
+serde = { version = "1.0", features = ["derive"], default-features = false }
+hex = { version = "0.4", default-features = false }
+
+# Remove alloy-primitives entirely to avoid keccak linking
+# We'll implement minimal U256 and Address types ourselves
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+export-abi = ["stylus-sdk/export-abi"]
+default = []
+std = []
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

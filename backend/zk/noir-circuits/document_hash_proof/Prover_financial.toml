@@ -1,0 +1,15 @@
+# Financial Statement Verification
+# Scenario: Proving financial disclosure for credit facility
+
+# PUBLIC INPUTS
+doc_commitment = "0x708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8097"
+doc_type_code = "5"               # Financial statement  
+enable_type_check = "1"
+
+# PRIVATE INPUTS
+doc_hash_raw = "67890123456789012345678901234567890123456789012345678901234567890"
+salt = "4321098765432109876543210987654321098765432109876543210987654321098765"
+expected_doc_type = "5"
+
+# Use case: Company proving audited financial statement submission
+# for credit facility application without revealing financial details

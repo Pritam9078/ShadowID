@@ -1,0 +1,22 @@
+[package]
+name = "stylus-windows-minimal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Absolute minimal dependencies for Windows
+stylus-sdk = { version = "0.4.1", default-features = false, features = [] }
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+export-abi = ["stylus-sdk/export-abi"]
+default = []
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

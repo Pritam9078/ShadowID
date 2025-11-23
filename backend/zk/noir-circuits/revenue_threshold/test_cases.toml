@@ -1,0 +1,159 @@
+# Comprehensive Test Cases for Revenue Threshold Circuit
+# Tests various scenarios including edge cases and validation
+
+[test_case_1.valid_above_threshold]
+# Valid case: Revenue significantly above threshold
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+threshold_value = "100000000"     # $1,000,000 in cents
+unit_scale = "100"                # Cents
+revenue_value = "250000000"       # $2,500,000 in cents (well above threshold)
+salt = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+expected_result = "pass"
+description = "Revenue $2.5M exceeds $1M threshold"
+
+[test_case_2.valid_exactly_threshold]
+# Edge case: Revenue exactly at threshold
+commitment = "0x2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8092"
+threshold_value = "50000000"      # $500,000 in cents
+unit_scale = "100"
+revenue_value = "50000000"        # $500,000 in cents (exactly at threshold)
+salt = "0x2345678901bcdefg2345678901bcdefg2345678901bcdefg2345678901bcdefg"
+expected_result = "pass"
+description = "Revenue exactly at threshold should pass"
+
+[test_case_3.invalid_below_threshold]
+# Invalid case: Revenue below threshold
+commitment = "0x3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8093"
+threshold_value = "100000000"     # $1,000,000 in cents
+unit_scale = "100"
+revenue_value = "75000000"        # $750,000 in cents (below threshold)
+salt = "0x3456789012cdefgh3456789012cdefgh3456789012cdefgh3456789012cdefgh"
+expected_result = "fail"
+description = "Revenue $750K below $1M threshold should fail"
+
+[test_case_4.invalid_zero_revenue]
+# Invalid case: Zero revenue
+commitment = "0x4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8094"
+threshold_value = "10000"         # $100 in cents
+unit_scale = "100"
+revenue_value = "0"               # Zero revenue (invalid)
+salt = "0x4567890123defghi4567890123defghi4567890123defghi4567890123defghi"
+expected_result = "fail"
+description = "Zero revenue should be rejected"
+
+[test_case_5.invalid_zero_salt]
+# Invalid case: Zero salt (security risk)
+commitment = "0x5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8095"
+threshold_value = "100000000"
+unit_scale = "100"
+revenue_value = "250000000"
+salt = "0x0"                      # Zero salt (security vulnerability)
+expected_result = "fail"
+description = "Zero salt should be rejected for security"
+
+[test_case_6.invalid_excessive_revenue]
+# Invalid case: Revenue above maximum allowed
+commitment = "0x6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8096"
+threshold_value = "100000000"
+unit_scale = "100"
+revenue_value = "20000000000000"  # $200 trillion (exceeds MAX_REVENUE)
+salt = "0x567890134efghij567890134efghij567890134efghij567890134efghij5"
+expected_result = "fail"
+description = "Revenue exceeding maximum should be rejected"
+
+[test_case_7.invalid_excessive_threshold]
+# Invalid case: Threshold above maximum allowed
+commitment = "0x708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8097"
+threshold_value = "2000000000000" # $20 trillion (exceeds MAX_THRESHOLD)
+unit_scale = "100"
+revenue_value = "250000000"
+salt = "0x67890123456efghij67890123456efghij67890123456efghij67890123456efghij"
+expected_result = "fail"
+description = "Excessive threshold should be rejected"
+
+[test_case_8.invalid_zero_unit_scale]
+# Invalid case: Zero unit scale
+commitment = "0x08192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8098"
+threshold_value = "100000000"
+unit_scale = "0"                  # Invalid zero scale
+revenue_value = "250000000"
+salt = "0x7890123456789abcdef7890123456789abcdef7890123456789abcdef78901234"
+expected_result = "fail"
+description = "Zero unit scale should be rejected"
+
+[test_case_9.valid_high_precision_mills]
+# Valid case: Using mills (1000) for higher precision
+commitment = "0x8192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f8099"
+threshold_value = "1000000000"    # $1,000,000 in mills (1M * 1000)
+unit_scale = "1000"               # Mills scaling (1000 mills = $1)
+revenue_value = "2500000000"      # $2,500,000 in mills (2.5M * 1000)
+salt = "0x890123456789abcdef0890123456789abcdef0890123456789abcdef089012345"
+expected_result = "pass"
+description = "High precision mills scaling should work"
+
+[test_case_10.valid_small_business]
+# Valid case: Small business with low threshold
+commitment = "0x92a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809a"
+threshold_value = "10000"         # $100 minimum
+unit_scale = "100"
+revenue_value = "500000"          # $5,000 revenue
+salt = "0x90123456789abcdef1890123456789abcdef1890123456789abcdef189012345"
+expected_result = "pass"
+description = "Small business above minimum threshold"
+
+[test_case_11.invalid_wrong_commitment]
+# Invalid case: Commitment doesn't match revenue/salt
+commitment = "0x0000000000000000000000000000000000000000000000000000000000000001"
+threshold_value = "100000000"
+unit_scale = "100"
+revenue_value = "250000000"       # This revenue/salt combination
+salt = "0xa0123456789abcdef2a0123456789abcdef2a0123456789abcdef2a0123456789"
+expected_result = "fail"
+description = "Mismatched commitment should fail verification"
+
+[test_case_12.edge_case_minimum_valid_revenue]
+# Edge case: Minimum valid revenue ($1.00)
+commitment = "0xa3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809b"
+threshold_value = "100"           # $1.00 threshold
+unit_scale = "100"
+revenue_value = "100"             # $1.00 revenue (minimum valid)
+salt = "0xb0123456789abcdef3b0123456789abcdef3b0123456789abcdef3b0123456789"
+expected_result = "pass"
+description = "Minimum valid revenue at threshold"
+
+[test_case_13.invalid_sub_minimum_revenue]
+# Invalid case: Revenue below minimum ($0.99)
+commitment = "0xb4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809c"
+threshold_value = "50"            # $0.50 threshold
+unit_scale = "100"
+revenue_value = "99"              # $0.99 (below MIN_REVENUE of $1.00)
+salt = "0xc0123456789abcdef4c0123456789abcdef4c0123456789abcdef4c0123456789"
+expected_result = "fail"
+description = "Revenue below absolute minimum should fail"
+
+[test_case_14.valid_investment_threshold]
+# Valid case: Investment qualification scenario
+commitment = "0xc5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809d"
+threshold_value = "1000000000"    # $10M investment threshold
+unit_scale = "100"
+revenue_value = "1575000000"      # $15.75M revenue
+salt = "0xd0123456789abcdef5d0123456789abcdef5d0123456789abcdef5d0123456789"
+expected_result = "pass"
+description = "Institutional investment revenue qualification"
+
+[test_case_15.invalid_excessive_unit_scale]
+# Invalid case: Unit scale too high
+commitment = "0xd6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809e"
+threshold_value = "100000000"
+unit_scale = "50000"              # Excessive scale (exceeds 10,000 limit)
+revenue_value = "250000000"
+salt = "0xe0123456789abcdef6e0123456789abcdef6e0123456789abcdef6e0123456789"
+expected_result = "fail"
+description = "Excessive unit scale should be rejected"
+
+# Instructions for testing:
+# 1. Copy individual test case to Prover.toml
+# 2. Run: nargo prove
+# 3. Verify expected_result matches actual outcome
+# 4. For "pass" cases, proof should generate successfully
+# 5. For "fail" cases, circuit should reject with assertion error

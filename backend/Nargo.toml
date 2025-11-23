@@ -1,0 +1,45 @@
+[workspace]
+members = [
+    "zk/noir-circuits/kyb_verification",
+    "zk/noir-circuits/business_age", 
+    "zk/noir-circuits/revenue_proof",
+    "zk/noir-circuits/age_proof",
+    "zk/noir-circuits/citizenship_proof",
+    "zk/noir-circuits/attribute_proof",
+    "zk/noir-circuits/business_registration",
+    "zk/noir-circuits/ubo_proof",
+    "zk/noir-circuits/revenue_threshold"
+]
+resolver = "2"
+
+[workspace.dependencies]
+# Shared dependencies for all circuits
+std = "0.19.0"
+
+# Default settings for all workspace members
+[workspace.package]
+authors = ["DVote Team"]
+edition = "2021"
+version = "1.0.0"
+license = "MIT"
+
+# Noir-specific configuration
+[profile.dev]
+# Development profile for faster compilation
+debug = true
+
+[profile.release]
+# Release profile for optimized proofs
+debug = false
+opt-level = "z"  # Optimize for size
+
+# Custom profiles for different proof requirements
+[profile.fast]
+# Fast compilation for development
+debug = true
+opt-level = "1"
+
+[profile.secure] 
+# Maximum security settings
+debug = false
+opt-level = "3"

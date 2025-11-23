@@ -1,0 +1,9 @@
+
+birth_year = 1998
+birth_month = 11
+birth_day = 23
+min_age = 18
+current_year = 2025
+current_month = 11
+current_day = 23
+salt = "random123"

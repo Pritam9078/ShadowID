@@ -1,0 +1,15 @@
+# Generic Document Verification (No Type Check)
+# Scenario: Flexible document verification without type constraints
+
+# PUBLIC INPUTS
+doc_commitment = "0x2a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809c"
+doc_type_code = "99"              # Other/flexible type
+enable_type_check = "0"           # Type verification disabled
+
+# PRIVATE INPUTS  
+doc_hash_raw = "11234567890123456789012345678901234567890123456789012345678901234"
+salt = "9876543210987654321098765432109876543210987654321098765432109876543210"
+expected_doc_type = "99"          # Not enforced when type check disabled
+
+# Use case: Flexible document verification where document type
+# is not critical but possession proof is required

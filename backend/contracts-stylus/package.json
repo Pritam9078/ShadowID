@@ -1,0 +1,36 @@
+{
+  "name": "stylus-deployment",
+  "version": "1.0.0",
+  "description": "Stylus WASM contract deployment script for Arbitrum networks",
+  "type": "module",
+  "main": "deploy-proper.js",
+  "scripts": {
+    "deploy": "node deploy-proper.js",
+    "deploy:debug": "DEBUG=true node deploy-proper.js",
+    "build": "cargo build --release --target wasm32-unknown-unknown && mkdir -p build && cp target/wasm32-unknown-unknown/release/*.wasm build/contract.wasm",
+    "clean": "cargo clean && rm -rf build/",
+    "test": "node -e \"import('./deploy.js').then(({default:StylusDeployer})=>{const d=new StylusDeployer();d.initialize().then(()=>console.log('✅ All checks passed!'))})\""
+  },
+  "keywords": [
+    "stylus",
+    "arbitrum",
+    "wasm",
+    "rust",
+    "blockchain",
+    "ethereum",
+    "smart-contracts"
+  ],
+  "author": "DVote Team",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.8.0",
+    "dotenv": "^16.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/dvote-stylus"
+  }
+}

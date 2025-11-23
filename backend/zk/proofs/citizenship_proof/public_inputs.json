@@ -1,0 +1,12 @@
+{
+  "circuit_name": "citizenship_proof",
+  "public_inputs": [
+    "0x16e83edcd87a5d571f97dda0c7ebb87a529a126e9fbf2408512aaf9edd7693d7"
+  ],
+  "generated_at": "2025-11-22T14:02:03.703Z",
+  "metadata": {
+    "generator": "dvote-proof-helper",
+    "platform": "Windows",
+    "node_version": "v22.11.0"
+  }
+}

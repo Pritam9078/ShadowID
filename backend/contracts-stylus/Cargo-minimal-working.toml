@@ -1,0 +1,28 @@
+[package]
+name = "contracts-stylus-minimal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Minimal Stylus SDK for basic functionality
+stylus-sdk = "0.4.2"
+alloy-primitives = { version = "0.3.3", default-features = false }
+
+# Basic utilities without linking conflicts
+hex = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+export-abi = ["stylus-sdk/export-abi"]
+default = []
+
+# Optimization for Stylus deployment
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

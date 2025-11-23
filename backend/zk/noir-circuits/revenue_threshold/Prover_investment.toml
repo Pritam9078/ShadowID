@@ -1,0 +1,14 @@
+# Investment Qualification Scenario
+# Prove minimum $10M revenue for institutional investment tier
+
+# PUBLIC INPUTS
+commitment = "0x2c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f808192a3b4c5d6e7f8091a2b"
+threshold_value = "1000000000"    # $10,000,000 in cents
+unit_scale = "100"
+
+# PRIVATE INPUTS
+revenue_value = "1575000000"      # $15,750,000 in cents
+salt = "0xd0123456789abcdef5d0123456789abcdef5d0123456789abcdef5d0123456789"
+
+# Use case: Company with $15.75M revenue proving eligibility for
+# institutional investment tier requiring minimum $10M revenue

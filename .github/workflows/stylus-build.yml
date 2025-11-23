@@ -1,0 +1,67 @@
+name: Stylus Contracts Build and Test
+
+on:
+  push:
+    branches: [ master, main ]
+    paths: 
+      - 'contracts-stylus/**'
+  pull_request:
+    branches: [ master, main ]
+    paths: 
+      - 'contracts-stylus/**'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        target: wasm32-unknown-unknown
+        override: true
+        components: rustfmt, clippy
+
+    - name: Cache Cargo dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          contracts-stylus/target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('contracts-stylus/Cargo.lock') }}
+
+    - name: Check formatting
+      working-directory: ./contracts-stylus
+      run: cargo fmt -- --check
+
+    - name: Run Clippy
+      working-directory: ./contracts-stylus
+      run: cargo clippy --target wasm32-unknown-unknown -- -D warnings
+
+    - name: Run tests
+      working-directory: ./contracts-stylus
+      run: cargo test
+
+    - name: Build for WebAssembly
+      working-directory: ./contracts-stylus
+      run: cargo build --target wasm32-unknown-unknown --release
+
+    - name: Build with export-abi feature
+      working-directory: ./contracts-stylus
+      run: cargo build --target wasm32-unknown-unknown --release --features export-abi
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: stylus-contracts
+        path: |
+          contracts-stylus/target/wasm32-unknown-unknown/release/*.wasm
+          contracts-stylus/target/wasm32-unknown-unknown/release/*.json

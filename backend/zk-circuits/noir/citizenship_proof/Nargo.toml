@@ -1,0 +1,7 @@
+[package]
+name = "citizenship_proof"
+type = "bin"
+authors = ["ShadowID Team"]
+compiler_version = ">=0.19.0"
+
+[dependencies]

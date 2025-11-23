@@ -1,0 +1,7 @@
+{
+  "salt": "0x6666666666666666666666666666666666666666666666666666666666666666",
+  "doc_hash_raw": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "doc_type_code": "4",
+  "enable_type_check": "1",
+  "expected_doc_type": "4"
+}

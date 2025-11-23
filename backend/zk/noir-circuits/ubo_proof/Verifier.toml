@@ -1,0 +1,7 @@
+# Public inputs for UBO proof verification (Mode 1 - Merkle inclusion)
+commitment_root = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+threshold_pct = "2500"
+claimed_owner_index = "0"
+claimed_count = "0"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "1"

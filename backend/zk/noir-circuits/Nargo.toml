@@ -1,0 +1,10 @@
+[workspace]
+members = [
+    "business_registration",
+    "ubo_proof", 
+    "revenue_threshold",
+    "document_hash_proof",
+    "composite_business_proof"
+]
+
+[workspace.dependencies]

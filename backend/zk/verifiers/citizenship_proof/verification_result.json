@@ -1,0 +1,16 @@
+{
+  "circuit_name": "citizenship_proof",
+  "proof_valid": true,
+  "verified_at": "2025-11-22T13:59:32.643Z",
+  "proof_hash": "3be22e0d6392af3d871276e9565601ba366b74243d9598e67561d8f133ee1bdd",
+  "public_inputs": [
+    "0xbf7e4423c2941f4dd5123b8696d2a25bb8e2d60bdc8a53611603a5ba2d0d3209"
+  ],
+  "mock": true,
+  "metadata": {
+    "verifier": "dvote-verify-helper",
+    "platform": "Windows",
+    "node_version": "v22.11.0",
+    "proof_file": "zk\\proofs\\citizenship_proof\\proof.json"
+  }
+}

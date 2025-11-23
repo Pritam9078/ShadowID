@@ -1,0 +1,66 @@
+# UBO Proof Circuit - Sample Inputs (Aggregate Count Mode)
+# Mode 2: Prove count of UBOs above threshold without revealing identities
+
+# PUBLIC INPUTS (visible to verifier)
+commitment_root = "0x0"    # Optional in Mode 2 (set to 0 to skip verification)
+threshold_pct = "1000"     # 10% in basis points (10 * 100)
+claimed_owner_index = "0"  # Unused in Mode 2
+claimed_count = "3"        # Claiming 3 UBOs own >= 10%
+merkle_proof = [
+    "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"
+]  # Unused in Mode 2
+proof_mode = "2"          # 2 = Aggregate count mode
+
+# PRIVATE INPUTS (hidden from verifier)
+# Note: Arrays must be padded to MAX_UBOS (20) length
+owner_shares = [
+    "3000",  # UBO 0: 30% ownership (above 10% threshold) ✓
+    "1500",  # UBO 1: 15% ownership (above 10% threshold) ✓  
+    "2000",  # UBO 2: 20% ownership (above 10% threshold) ✓
+    "800",   # UBO 3: 8% ownership (below 10% threshold) ✗
+    "500",   # UBO 4: 5% ownership (below 10% threshold) ✗
+    "1200",  # UBO 5: 12% ownership (above 10% threshold) ✓
+    "2000",  # UBO 6: 20% ownership (above 10% threshold) ✓
+    "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"
+]
+
+owner_salts = [
+    "0x1111111111111111111111111111111111111111111111111111111111111111",
+    "0x2222222222222222222222222222222222222222222222222222222222222222",
+    "0x3333333333333333333333333333333333333333333333333333333333333333", 
+    "0x4444444444444444444444444444444444444444444444444444444444444444",
+    "0x5555555555555555555555555555555555555555555555555555555555555555",
+    "0x6666666666666666666666666666666666666666666666666666666666666666",
+    "0x7777777777777777777777777777777777777777777777777777777777777777",
+    "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"
+]
+
+owner_ids = [
+    "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", 
+    "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0x1010101010101010101010101010101010101010101010101010101010101010",
+    "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"
+]
+
+actual_ubo_count = "7"     # Total number of UBOs in this company
+
+# EXPLANATION:
+# This example proves that exactly 5 UBOs own >= 10% of the company:
+# - UBO 0: 30% ✓ (above threshold)
+# - UBO 1: 15% ✓ (above threshold)  
+# - UBO 2: 20% ✓ (above threshold)
+# - UBO 3: 8% ✗ (below threshold)
+# - UBO 4: 5% ✗ (below threshold)
+# - UBO 5: 12% ✓ (above threshold)
+# - UBO 6: 20% ✓ (above threshold)
+# 
+# Count = 5 UBOs above 10% threshold
+# Total ownership = 100% (30+15+20+8+5+12+20 = 110%, but this is just example data)
+
+# NOTE: In the circuit, we claim count = 3, but actual calculation shows 5
+# This will cause the assertion to fail, demonstrating the verification works
+# To pass, change claimed_count to "5"

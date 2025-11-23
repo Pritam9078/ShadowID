@@ -1,0 +1,58 @@
+{
+  "circuit_name": "citizenship_proof",
+  "proof": [
+    180,
+    247,
+    183,
+    126,
+    92,
+    87,
+    24,
+    39,
+    159,
+    191,
+    41,
+    84,
+    112,
+    95,
+    39,
+    27,
+    244,
+    99,
+    128,
+    66,
+    201,
+    92,
+    180,
+    110,
+    59,
+    90,
+    45,
+    1,
+    23,
+    182,
+    49,
+    215
+  ],
+  "public_inputs": [
+    "0x16e83edcd87a5d571f97dda0c7ebb87a529a126e9fbf2408512aaf9edd7693d7"
+  ],
+  "generated_at": "2025-11-22T14:02:03.703Z",
+  "mock": true,
+  "inputs": {
+    "country_code": 356,
+    "document_hash": "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890",
+    "allowed_countries": [
+      356,
+      840,
+      826,
+      276
+    ],
+    "salt": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+  },
+  "metadata": {
+    "generator": "dvote-proof-helper",
+    "platform": "Windows",
+    "node_version": "v22.11.0"
+  }
+}

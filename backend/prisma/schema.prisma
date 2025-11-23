@@ -1,0 +1,304 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dao.db"
+}
+
+// User management
+model User {
+  id          String   @id @default(cuid())
+  address     String   @unique
+  ensName     String?
+  email       String?
+  username    String?
+  bio         String?
+  avatar      String?
+  role        UserRole @default(MEMBER)
+  
+  // Voting statistics
+  totalVotes     Int @default(0)
+  proposalsCreated Int @default(0)
+  votingPower    String @default("0") // BigInt as string
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lastActive  DateTime @default(now())
+  
+  // Relations
+  proposals     Proposal[]
+  votes         Vote[]
+  comments      Comment[]
+  notifications Notification[]
+  
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  MODERATOR
+  MEMBER
+  BANNED
+}
+
+// Proposals
+model Proposal {
+  id              String           @id @default(cuid())
+  onChainId       Int              @unique
+  title           String
+  description     String
+  descriptionCID  String?          // IPFS CID for full description
+  
+  // Blockchain data
+  proposer        String
+  target          String
+  value           String           @default("0") // BigInt as string
+  snapshotBlock   Int
+  startTime       DateTime
+  endTime         DateTime
+  executionTime   DateTime?
+  
+  // State management
+  state           ProposalState    @default(PENDING)
+  executed        Boolean          @default(false)
+  cancelled       Boolean          @default(false)
+  
+  // Vote tallies
+  votesFor        String           @default("0") // BigInt as string
+  votesAgainst    String           @default("0") // BigInt as string
+  votesAbstain    String           @default("0") // BigInt as string
+  quorum          String           @default("0") // BigInt as string
+  
+  // Metadata
+  category        String           @default("General")
+  tags            String?          // JSON string for tags
+  priority        Priority         @default(NORMAL)
+  
+  // Timestamps
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  
+  // Relations
+  creator         User             @relation(fields: [proposer], references: [address])
+  votes           Vote[]
+  comments        Comment[]
+  events          ProposalEvent[]
+  
+  @@map("proposals")
+}
+
+enum ProposalState {
+  PENDING
+  ACTIVE
+  CANCELLED
+  DEFEATED
+  SUCCEEDED
+  QUEUED
+  EXPIRED
+  EXECUTED
+}
+
+enum Priority {
+  LOW
+  NORMAL
+  HIGH
+  CRITICAL
+}
+
+// Voting records
+model Vote {
+  id            String      @id @default(cuid())
+  proposalId    String
+  voter         String
+  support       VoteChoice
+  weight        String      // BigInt as string
+  reason        String?
+  
+  // Blockchain data
+  transactionHash String?
+  blockNumber     Int?
+  blockTimestamp  DateTime?
+  
+  // Timestamps
+  createdAt     DateTime    @default(now())
+  
+  // Relations
+  proposal      Proposal    @relation(fields: [proposalId], references: [id])
+  user          User        @relation(fields: [voter], references: [address])
+  
+  @@unique([proposalId, voter])
+  @@map("votes")
+}
+
+enum VoteChoice {
+  FOR
+  AGAINST
+  ABSTAIN
+}
+
+// Comments and discussions
+model Comment {
+  id          String   @id @default(cuid())
+  proposalId  String
+  author      String
+  content     String
+  parentId    String?  // For nested comments
+  
+  // Moderation
+  approved    Boolean  @default(true)
+  flagged     Boolean  @default(false)
+  
+  // Timestamps
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  proposal    Proposal @relation(fields: [proposalId], references: [id])
+  user        User     @relation(fields: [author], references: [address])
+  parent      Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies     Comment[] @relation("CommentReplies")
+  
+  @@map("comments")
+}
+
+// Treasury operations
+model TreasuryTransaction {
+  id              String            @id @default(cuid())
+  transactionHash String            @unique
+  type            TransactionType
+  amount          String            // BigInt as string
+  token           String?           // Token address (null for ETH)
+  from            String?
+  to              String?
+  
+  // Metadata
+  description     String?
+  proposalId      String?
+  
+  // Blockchain data
+  blockNumber     Int
+  blockTimestamp  DateTime
+  gasUsed         String
+  gasPrice        String
+  
+  // Status
+  status          TransactionStatus @default(PENDING)
+  
+  // Timestamps
+  createdAt       DateTime          @default(now())
+  
+  @@map("treasury_transactions")
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  APPROVAL
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+}
+
+// Event tracking
+model ProposalEvent {
+  id          String          @id @default(cuid())
+  proposalId  String
+  type        ProposalEventType
+  data        String          // JSON data
+  
+  // Blockchain data
+  transactionHash String?
+  blockNumber     Int?
+  blockTimestamp  DateTime?
+  
+  // Timestamps
+  createdAt   DateTime        @default(now())
+  
+  // Relations
+  proposal    Proposal        @relation(fields: [proposalId], references: [id])
+  
+  @@map("proposal_events")
+}
+
+enum ProposalEventType {
+  CREATED
+  VOTE_CAST
+  STATE_CHANGED
+  EXECUTED
+  CANCELLED
+  COMMENT_ADDED
+}
+
+// Analytics and metrics
+model DaoMetrics {
+  id                String   @id @default(cuid())
+  date              DateTime @unique
+  
+  // Proposal metrics
+  totalProposals    Int      @default(0)
+  activeProposals   Int      @default(0)
+  proposalsCreated  Int      @default(0)
+  proposalsExecuted Int      @default(0)
+  
+  // Voting metrics
+  totalVotes        Int      @default(0)
+  uniqueVoters      Int      @default(0)
+  votingParticipation Float  @default(0)
+  
+  // Treasury metrics
+  treasuryBalance   String   @default("0") // BigInt as string
+  totalDeposits     String   @default("0")
+  totalWithdrawals  String   @default("0")
+  
+  // User metrics
+  totalUsers        Int      @default(0)
+  activeUsers       Int      @default(0)
+  newUsers          Int      @default(0)
+  
+  // Timestamps
+  createdAt         DateTime @default(now())
+  
+  @@map("dao_metrics")
+}
+
+// Notification system
+model Notification {
+  id          String            @id @default(cuid())
+  userId      String
+  type        NotificationType
+  title       String
+  message     String
+  data        String?           // JSON data
+  
+  // Status
+  read        Boolean           @default(false)
+  sent        Boolean           @default(false)
+  
+  // Timestamps
+  createdAt   DateTime          @default(now())
+  readAt      DateTime?
+  
+  // Relations
+  user        User              @relation(fields: [userId], references: [id])
+  
+  @@map("notifications")
+}
+
+enum NotificationType {
+  PROPOSAL_CREATED
+  PROPOSAL_STATE_CHANGED
+  VOTE_CAST
+  COMMENT_ADDED
+  TREASURY_TRANSACTION
+  SYSTEM_ANNOUNCEMENT
+}

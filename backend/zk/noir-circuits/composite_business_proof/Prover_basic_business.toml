@@ -1,0 +1,72 @@
+# Basic Business Compliance (Registration + UBO + Revenue)
+# Policy ID: 0x7 = 7 = 00111 binary
+# Bit 0: Business Registration ✓
+# Bit 1: UBO Compliance ✓
+# Bit 2: Revenue Threshold ✓
+
+commitments = [
+    "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",  # Registration  
+    "0x2345678901bcdef02345678901bcdef02345678901bcdef02345678901bcdef0",  # UBO
+    "0x3456789012cdef123456789012cdef123456789012cdef123456789012cdef12",  # Revenue
+    "0x0000000000000000000000000000000000000000000000000000000000000000",  # Unused
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0x0000000000000000000000000000000000000000000000000000000000000000"
+]
+
+policy_id = "7"  # Registration + UBO + Revenue
+nonce = "1734567890123456789"
+wallet_bind = "0"  # No wallet binding
+
+# Registration parameters
+reg_issuer = "0xabcdef1234567890abcdef1234567890abcdef12"
+reg_issued_at = "1704067200"
+reg_expiry = "1767225600"
+
+# UBO parameters
+ubo_threshold = "25"
+ubo_merkle_root = "0x0000000000000000000000000000000000000000000000000000000000000000"  # Aggregate mode
+
+# Revenue parameters
+revenue_min_threshold = "100000"    # $1,000 minimum (in cents)
+revenue_max_threshold = "0"         # No cap
+revenue_scaling_factor = "100"      # Cents scaling
+
+# Document parameters (unused)
+doc_type_required = "0"
+
+# Private inputs
+
+# Registration private
+reg_business_id = "0x1111111111111111111111111111111111111111111111111111111111111111"
+reg_salt = "0x2222222222222222222222222222222222222222222222222222222222222222"
+reg_registration_hash = "0x3333333333333333333333333333333333333333333333333333333333333333"
+
+# UBO private (aggregate mode)
+ubo_salt = "0x4444444444444444444444444444444444444444444444444444444444444444"
+ubo_shares = [
+    "50",  # UBO 1: 50%
+    "30",  # UBO 2: 30%
+    "20",  # UBO 3: 20%
+    "0", "0", "0", "0", "0", "0", "0",     # UBOs 4-10: 0%
+    "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"      # UBOs 11-20: 0%
+]
+ubo_merkle_path = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]  # Unused in aggregate mode
+ubo_merkle_indices = ["0", "0", "0", "0", "0", "0", "0", "0"]
+ubo_proof_mode = "0"  # Aggregate mode
+
+# Revenue private
+revenue_salt = "0x5555555555555555555555555555555555555555555555555555555555555555"
+revenue_actual = "2500"      # $25.00 = 2500 cents
+revenue_fiscal_year = "2024"
+
+# Document private (unused)
+doc_salt = "0x0000000000000000000000000000000000000000000000000000000000000000"
+doc_hash_raw = "0x0000000000000000000000000000000000000000000000000000000000000000"
+doc_type_actual = "0"
+
+# Wallet private (unused)
+wallet_private = "0x0000000000000000000000000000000000000000000000000000000000000000"

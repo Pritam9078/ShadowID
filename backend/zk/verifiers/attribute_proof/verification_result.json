@@ -1,0 +1,16 @@
+{
+  "circuit_name": "attribute_proof",
+  "proof_valid": true,
+  "verified_at": "2025-11-22T14:01:44.182Z",
+  "proof_hash": "bad3089637f27de921bc440ba73bb2cfa24a8a5fd253fa103bf0f621bbf418d8",
+  "public_inputs": [
+    "0x5f1e1ac340dceb5f838f9e3d69399e6ac51d6350243954690b35fb83c02145de"
+  ],
+  "mock": true,
+  "metadata": {
+    "verifier": "dvote-verify-helper",
+    "platform": "Windows",
+    "node_version": "v22.11.0",
+    "proof_file": "zk\\proofs\\attribute_proof\\proof.json"
+  }
+}

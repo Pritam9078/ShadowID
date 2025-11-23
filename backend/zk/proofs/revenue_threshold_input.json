@@ -1,0 +1,8 @@
+{
+  "salt": "0x7777777777777777777777777777777777777777777777777777777777777777",
+  "actual_revenue": "150000",
+  "fiscal_year": "2024",
+  "min_threshold": "100000",
+  "max_threshold": "0",
+  "scaling_factor": "100"
+}

@@ -1,0 +1,64 @@
+{
+  "name": "shadowid-noir-zk-backend",
+  "version": "1.0.0",
+  "description": "Node.js Express backend for Noir ZK proof generation and identity verification",
+  "main": "server-noir-zk.js",
+  "scripts": {
+    "start": "node server-noir-zk.js",
+    "dev": "nodemon server-noir-zk.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "zk:compile": "cd ../zk/scripts && chmod +x compile_all.sh && ./compile_all.sh",
+    "zk:compile:win": "cd ../zk/scripts && powershell -ExecutionPolicy Bypass -File compile_all.ps1",
+    "zk:prove": "cd ../zk/scripts && chmod +x generate_proof.sh",
+    "zk:prove:win": "cd ../zk/scripts && powershell -ExecutionPolicy Bypass -File generate_proof.ps1",
+    "zk:verify": "cd ../zk/scripts && chmod +x verify_proof.sh",
+    "zk:test": "cd ../zk && nargo test --workspace",
+    "zk:check": "node ../zk/scripts/aztec_backend.js check",
+    "zk:circuits": "node ../zk/scripts/aztec_backend.js circuits"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "noir",
+    "zero-knowledge",
+    "zk-proofs",
+    "blockchain",
+    "identity",
+    "stylus",
+    "arbitrum",
+    "kyc",
+    "privacy"
+  ],
+  "author": "ShadowID Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "compression": "^1.7.4",
+    "dotenv": "^16.3.1",
+    "ethers": "^6.8.1",
+    "crypto": "^1.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.55.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.4.0",
+    "eslint-plugin-promise": "^6.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-repo/shadowid-backend"
+  }
+}

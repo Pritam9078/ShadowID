@@ -1,0 +1,57 @@
+{
+  "circuit_name": "age_proof",
+  "proof": [
+    107,
+    107,
+    124,
+    191,
+    28,
+    13,
+    119,
+    72,
+    40,
+    30,
+    178,
+    232,
+    31,
+    28,
+    182,
+    106,
+    13,
+    67,
+    103,
+    155,
+    149,
+    43,
+    39,
+    236,
+    5,
+    219,
+    163,
+    210,
+    116,
+    58,
+    112,
+    136
+  ],
+  "public_inputs": [
+    "0x6155d56527189e2df90be1d5d7b660e80c8f8389c0e905ee8fe2fe724c99c9a4"
+  ],
+  "generated_at": "2025-11-22T14:36:18.861Z",
+  "mock": true,
+  "inputs": {
+    "birth_year": 1995,
+    "birth_month": 6,
+    "birth_day": 15,
+    "current_year": 2024,
+    "current_month": 11,
+    "current_day": 22,
+    "min_age": 18,
+    "salt": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+  },
+  "metadata": {
+    "generator": "dvote-proof-helper",
+    "platform": "Windows",
+    "node_version": "v22.11.0"
+  }
+}

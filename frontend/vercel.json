@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "buildCommand": "npm ci && npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "installCommand": "npm ci",
+  "env": {
+    "VITE_BACKEND_URL": "https://shadowid-backend.onrender.com",
+    "VITE_WS_URL": "wss://shadowid-backend.onrender.com",
+    "VITE_API_URL": "https://shadowid-backend.onrender.com/api",
+    "VITE_NETWORK": "arbitrum-sepolia",
+    "VITE_CHAIN_ID": "421614"
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://shadowid-backend.onrender.com/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ]
+}

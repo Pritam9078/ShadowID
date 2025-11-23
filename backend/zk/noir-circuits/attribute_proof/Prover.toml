@@ -1,0 +1,51 @@
+# Example inputs for Attribute Proof Circuit
+# This file demonstrates selective disclosure of a specific attribute
+# Example: Proving education level without revealing university, GPA, or other details
+
+# Private inputs (never revealed on-chain)
+# Array of all user attributes (hashed values)
+attributes = [
+    "0x1111111111111111111111111111111111111111111111111111111111111111",  # Education: "Masters Degree"
+    "0x2222222222222222222222222222222222222222222222222222222222222222",  # University: "MIT" 
+    "0x3333333333333333333333333333333333333333333333333333333333333333",  # GPA: "3.8"
+    "0x4444444444444444444444444444444444444444444444444444444444444444",  # Income: "$75000"
+    "0x5555555555555555555555555555555555555555555555555555555555555555",  # Address: "New York"
+    "0x6666666666666666666666666666666666666666666666666666666666666666",  # Age: "28"
+    "0x7777777777777777777777777777777777777777777777777777777777777777",  # Employer: "TechCorp"
+    "0x8888888888888888888888888888888888888888888888888888888888888888",  # Certification: "CPA"
+    "0x9999999999999999999999999999999999999999999999999999999999999999",  # Years Experience: "5"
+    "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"   # Professional Level: "Senior"
+]
+
+# Index of the attribute we want to prove (0-based)
+attribute_index = 0  # Proving education level (index 0)
+
+# Random salt for privacy
+salt = "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+
+# Public inputs (visible on-chain)
+# Hash of the specific attribute we want to prove exists
+target_attribute_hash = "0x1111111111111111111111111111111111111111111111111111111111111111"
+
+# Merkle root of all attributes (for integrity)
+attributes_root = "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+
+# Expected outputs (calculated by the circuit)
+attribute_exists = true
+proof_commitment = "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+
+# Use Cases:
+# - Prove you have a "Masters Degree" without revealing which university
+# - Prove your income is ">$50000" without revealing exact salary  
+# - Prove you live in "California" without revealing exact address
+# - Prove you have "5+ years experience" without revealing employer
+# - Prove you are "Certified Professional" without revealing company
+
+# Instructions:
+# 1. Hash all your attributes and put them in the attributes array
+# 2. Set attribute_index to the index of the attribute you want to prove
+# 3. Set target_attribute_hash to the hash of that specific attribute
+# 4. Calculate attributes_root using the Merkle root function
+# 5. Generate a random salt
+# 6. Run: nargo prove
+# 7. The proof shows the attribute exists without revealing any other attributes

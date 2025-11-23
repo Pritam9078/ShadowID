@@ -1,0 +1,23 @@
+# Sample inputs for business registration circuit
+# These values demonstrate the circuit functionality
+
+# PUBLIC INPUTS (visible to verifier)
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+issued_by = "12345"          # Government agency ID
+expiry_ts = "1735689600"     # December 31, 2024 (Unix timestamp)
+current_time = "1701043200"  # November 27, 2023 (Unix timestamp)
+
+# PRIVATE INPUTS (hidden from verifier)
+biz_id = "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01"
+salt = "0x9f8e7d6c5b4a3928170f6e5d4c3b2a1908f7e6d5c4b3a29281706f5e4d3c2b1a"
+
+# SIGNATURE COMPONENTS (optional)
+issuer_signature_r = "0x0"  # Set to 0 to disable signature verification
+issuer_signature_s = "0x0"  # Set to 0 to disable signature verification
+use_signature = "0"         # 0 = disabled, 1 = enabled
+
+# NOTE: In production, these values would be:
+# - commitment: Actual Poseidon hash stored on Stylus contract
+# - biz_id: Hash of real business registration ID
+# - salt: Cryptographically secure random value
+# - Signature components: Valid ECDSA signature from authorized issuer

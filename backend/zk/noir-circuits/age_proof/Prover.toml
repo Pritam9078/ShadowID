@@ -1,0 +1,25 @@
+# Example inputs for Age Proof Circuit
+# This file demonstrates how to provide inputs for proving you are at least 18 years old
+# born on May 15, 1995
+
+# Private inputs (never revealed on-chain)
+birth_year = 1995
+birth_month = 5
+birth_day = 15
+
+# Public inputs (visible on-chain)
+min_age = 18
+current_year = 2024
+current_month = 11
+current_day = 22
+
+# Expected outputs (calculated by the circuit)
+age_valid = true
+age_commitment = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+
+# Instructions:
+# 1. Replace the private inputs with your actual birth date
+# 2. Update current_year, current_month, current_day to today's date
+# 3. The circuit will calculate if you meet the min_age requirement
+# 4. Run: nargo prove
+# 5. The proof can be verified without revealing your exact age or birth date

@@ -1,0 +1,24 @@
+[package]
+name = "contracts-stylus-win"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Try minimal Stylus SDK configuration for Windows
+stylus-sdk = { version = "0.4.2", default-features = false }
+
+# Minimal dependencies that might work on Windows
+serde = { version = "1.0", features = ["derive"], default-features = false, features = ["alloc"] }
+hex = { version = "0.4", default-features = false, features = ["alloc"] }
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+export-abi = ["stylus-sdk/export-abi"]
+default = []
+
+[profile.release]
+codegen-units = 1
+opt-level = "s"
+panic = "abort"

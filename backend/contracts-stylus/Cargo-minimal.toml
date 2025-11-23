@@ -1,0 +1,30 @@
+[package]
+name = "contracts-stylus-minimal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Minimal Stylus SDK without problematic dependencies
+stylus-sdk = { version = "0.4.2", default-features = false, features = ["storage"] }
+
+# Essential serialization only
+serde = { version = "1.0", features = ["derive"], default-features = false }
+serde_json = { version = "1.0", default-features = false }
+
+# Basic error handling
+thiserror = { version = "1.0", default-features = false }
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+export-abi = ["stylus-sdk/export-abi"]
+default = []
+
+# Optimization for Stylus deployment
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

@@ -1,0 +1,12 @@
+{
+  "circuit_name": "age_proof",
+  "public_inputs": [
+    "0x6155d56527189e2df90be1d5d7b660e80c8f8389c0e905ee8fe2fe724c99c9a4"
+  ],
+  "generated_at": "2025-11-22T14:36:18.861Z",
+  "metadata": {
+    "generator": "dvote-proof-helper",
+    "platform": "Windows",
+    "node_version": "v22.11.0"
+  }
+}

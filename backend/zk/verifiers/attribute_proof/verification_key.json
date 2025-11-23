@@ -1,0 +1,21 @@
+{
+  "circuit_name": "attribute_proof",
+  "verification_key": {
+    "alpha_g1": "0x911a36f52ce3a284b64fffc83b997255121e6b2a3f7791317885b12ab580a548",
+    "beta_g2": "0x3ac0a239488b1e349556b18117caf6e71c07885c20cdefc2c180047818542480976b5cf1ea552758fb30b0a01c067f561480210ef0ecda78a3c4d107801b08c7",
+    "gamma_g2": "0x50c3bac7588ae32dcab40bc87f84641609aed08c2d87144ccef19c7db70af0e6ef20bd6fb9332fb0d4229f3a331fc3f2c3241d98630005d0b988600a11c490ff",
+    "delta_g2": "0x87ce681bf93e3325d962d636c154797144107a6d313b19dc600851a903a6b09b385d387a9f8c8678a3e43119cbd4eb12eb2fd7a5db1f7611b349f27120f15428",
+    "ic": [
+      "0x43d61bc297b98d14c8d3b34289b7f16b5a58d1282819bad7beecae6625c7485b"
+    ]
+  },
+  "key_type": "groth16",
+  "curve": "bn254",
+  "generated_at": "2025-11-22T13:56:57.885Z",
+  "mock": true,
+  "description": "Mock verification key for development and testing",
+  "metadata": {
+    "generator": "dvote-verify-helper",
+    "platform": "Windows"
+  }
+}

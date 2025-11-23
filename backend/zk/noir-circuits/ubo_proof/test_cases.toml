@@ -1,0 +1,144 @@
+# Comprehensive Test Cases for UBO Proof Circuit
+# Tests both Merkle inclusion (Mode 1) and aggregate count (Mode 2) approaches
+
+[test_case_1.valid_merkle_inclusion]
+# Mode 1: Valid UBO above threshold with Merkle inclusion
+commitment_root = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+threshold_pct = "2500"      # 25%
+claimed_owner_index = "0"
+claimed_count = "0"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "1"
+owner_shares = ["3000", "2000", "1500", "1500", "1000", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+owner_salts = ["0x1111111111111111111111111111111111111111111111111111111111111111", "0x2222222222222222222222222222222222222222222222222222222222222222", "0x3333333333333333333333333333333333333333333333333333333333333333", "0x4444444444444444444444444444444444444444444444444444444444444444", "0x5555555555555555555555555555555555555555555555555555555555555555", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "5"
+expected_result = "pass"
+description = "UBO 0 owns 30%, above 25% threshold"
+
+[test_case_2.valid_aggregate_count]
+# Mode 2: Valid aggregate count of UBOs above threshold
+commitment_root = "0x0"     # Skip root verification in Mode 2
+threshold_pct = "1000"      # 10%
+claimed_owner_index = "0"
+claimed_count = "3"         # 3 UBOs above 10%
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "2"
+owner_shares = ["1500", "2000", "800", "1200", "500", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+owner_salts = ["0x1111111111111111111111111111111111111111111111111111111111111111", "0x2222222222222222222222222222222222222222222222222222222222222222", "0x3333333333333333333333333333333333333333333333333333333333333333", "0x4444444444444444444444444444444444444444444444444444444444444444", "0x5555555555555555555555555555555555555555555555555555555555555555", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "5"
+expected_result = "pass"
+description = "UBOs with 15%, 20%, 12% above 10% threshold (3 total)"
+
+[test_case_3.invalid_below_threshold]
+# Mode 1: UBO below threshold should fail
+commitment_root = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+threshold_pct = "2500"      # 25%
+claimed_owner_index = "1"   # UBO 1 only has 20%
+claimed_count = "0"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "1"
+owner_shares = ["3000", "2000", "1500", "1500", "1000", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+owner_salts = ["0x1111111111111111111111111111111111111111111111111111111111111111", "0x2222222222222222222222222222222222222222222222222222222222222222", "0x3333333333333333333333333333333333333333333333333333333333333333", "0x4444444444444444444444444444444444444444444444444444444444444444", "0x5555555555555555555555555555555555555555555555555555555555555555", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "5"
+expected_result = "fail"
+description = "UBO 1 owns 20%, below 25% threshold"
+
+[test_case_4.invalid_wrong_count]
+# Mode 2: Wrong count claim should fail
+commitment_root = "0x0"
+threshold_pct = "1000"      # 10%
+claimed_owner_index = "0"
+claimed_count = "5"         # Claiming 5, but only 3 are above threshold
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "2"
+owner_shares = ["1500", "2000", "800", "1200", "500", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+owner_salts = ["0x1111111111111111111111111111111111111111111111111111111111111111", "0x2222222222222222222222222222222222222222222222222222222222222222", "0x3333333333333333333333333333333333333333333333333333333333333333", "0x4444444444444444444444444444444444444444444444444444444444444444", "0x5555555555555555555555555555555555555555555555555555555555555555", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "5"
+expected_result = "fail"
+description = "Claimed 5 UBOs above threshold, but only 3 qualify"
+
+[test_case_5.invalid_zero_owner_id]
+# Invalid zero owner ID should fail
+commitment_root = "0x0"
+threshold_pct = "1000"
+claimed_owner_index = "0"
+claimed_count = "1"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "2"
+owner_shares = ["1500", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+owner_salts = ["0x1111111111111111111111111111111111111111111111111111111111111111", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "1"
+expected_result = "fail"
+description = "Zero owner ID should be rejected"
+
+[test_case_6.invalid_zero_salt]
+# Invalid zero salt should fail
+commitment_root = "0x0"
+threshold_pct = "1000"
+claimed_owner_index = "0"
+claimed_count = "1"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "2"
+owner_shares = ["1500", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+owner_salts = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "1"
+expected_result = "fail"
+description = "Zero salt should be rejected"
+
+[test_case_7.invalid_over_100_percent]
+# Total ownership over 100% should fail
+commitment_root = "0x0"
+threshold_pct = "1000"
+claimed_owner_index = "0"
+claimed_count = "3"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "2"
+owner_shares = ["6000", "3000", "2000", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]  # 60% + 30% + 20% = 110%
+owner_salts = ["0x1111111111111111111111111111111111111111111111111111111111111111", "0x2222222222222222222222222222222222222222222222222222222222222222", "0x3333333333333333333333333333333333333333333333333333333333333333", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "3"
+expected_result = "fail"
+description = "Total ownership exceeds 100%"
+
+[test_case_8.edge_case_exactly_threshold]
+# UBO with exactly threshold percentage should pass
+commitment_root = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+threshold_pct = "2500"      # 25%
+claimed_owner_index = "0"   # UBO 0 has exactly 25%
+claimed_count = "0"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "1"
+owner_shares = ["2500", "2000", "1500", "1500", "2500", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]  # Exactly 25%
+owner_salts = ["0x1111111111111111111111111111111111111111111111111111111111111111", "0x2222222222222222222222222222222222222222222222222222222222222222", "0x3333333333333333333333333333333333333333333333333333333333333333", "0x4444444444444444444444444444444444444444444444444444444444444444", "0x5555555555555555555555555555555555555555555555555555555555555555", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "0xcccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "0xdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "5"
+expected_result = "pass"
+description = "UBO owns exactly 25% (threshold boundary)"
+
+[test_case_9.invalid_mode]
+# Invalid proof mode should fail
+commitment_root = "0x0"
+threshold_pct = "1000"
+claimed_owner_index = "0"
+claimed_count = "1"
+merkle_proof = ["0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+proof_mode = "3"            # Invalid mode (only 1 and 2 supported)
+owner_shares = ["1500", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
+owner_salts = ["0x1111111111111111111111111111111111111111111111111111111111111111", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+owner_ids = ["0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0", "0x0"]
+actual_ubo_count = "1"
+expected_result = "fail"
+description = "Invalid proof mode should be rejected"
+
+# Instructions for testing:
+# 1. Copy a test case to Prover.toml
+# 2. Run: nargo prove
+# 3. Check that result matches expected_result
+# 4. For "pass" cases, proof should generate successfully
+# 5. For "fail" cases, circuit should reject with assertion error

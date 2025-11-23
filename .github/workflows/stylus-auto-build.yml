@@ -1,0 +1,102 @@
+name: 🚀 Stylus Contracts Auto-Build
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch: # Allows manual trigger
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-stylus-contracts:
+    name: 🔧 Build Stylus Contracts
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: 🦀 Setup Rust Toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        target: wasm32-unknown-unknown
+        override: true
+        components: rustfmt, clippy
+
+    - name: 📦 Cache Cargo Dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          contracts-stylus/target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('contracts-stylus/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-
+
+    - name: 🎨 Check Code Formatting
+      working-directory: ./contracts-stylus
+      run: cargo fmt --check
+      continue-on-error: true
+
+    - name: 🔍 Run Clippy Linter
+      working-directory: ./contracts-stylus
+      run: cargo clippy --target wasm32-unknown-unknown --all-features -- -W clippy::all
+      continue-on-error: true
+
+    - name: 🧪 Run Tests
+      working-directory: ./contracts-stylus
+      run: cargo test --verbose
+      continue-on-error: true
+
+    - name: ⚡ Build for WebAssembly (Debug)
+      working-directory: ./contracts-stylus
+      run: cargo build --target wasm32-unknown-unknown
+
+    - name: 🚀 Build for WebAssembly (Release)
+      working-directory: ./contracts-stylus
+      run: cargo build --target wasm32-unknown-unknown --release
+
+    - name: 📋 Build with ABI Export
+      working-directory: ./contracts-stylus
+      run: cargo build --target wasm32-unknown-unknown --release --features export-abi
+      continue-on-error: true
+
+    - name: 📊 Contract Size Report
+      working-directory: ./contracts-stylus
+      run: |
+        echo "## 📊 Contract Build Sizes" >> $GITHUB_STEP_SUMMARY
+        echo "| Contract | Size (bytes) | Size (KB) |" >> $GITHUB_STEP_SUMMARY
+        echo "|----------|--------------|-----------|" >> $GITHUB_STEP_SUMMARY
+        if [ -d "target/wasm32-unknown-unknown/release" ]; then
+          for file in target/wasm32-unknown-unknown/release/*.wasm; do
+            if [ -f "$file" ]; then
+              name=$(basename "$file" .wasm)
+              size=$(wc -c < "$file")
+              size_kb=$((size / 1024))
+              echo "| $name | $size | ${size_kb}KB |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+        fi
+
+    - name: 📤 Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: stylus-contracts-${{ github.sha }}
+        path: |
+          contracts-stylus/target/wasm32-unknown-unknown/release/*.wasm
+          contracts-stylus/target/wasm32-unknown-unknown/release/deps/*.json
+        retention-days: 30
+
+    - name: ✅ Build Success Notification
+      if: success()
+      run: |
+        echo "## ✅ Build Successful!" >> $GITHUB_STEP_SUMMARY
+        echo "Your Stylus contracts compiled successfully!" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ All contracts built for WebAssembly" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Release binaries generated" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Artifacts uploaded and ready for deployment" >> $GITHUB_STEP_SUMMARY

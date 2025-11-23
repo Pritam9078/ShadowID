@@ -1,0 +1,14 @@
+# Partnership Qualification Scenario  
+# Prove minimum $500K revenue for strategic partnership
+
+# PUBLIC INPUTS
+commitment = "0x3d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809192a3b4c5d6e7f8091a2b3c"
+threshold_value = "50000000"      # $500,000 in cents
+unit_scale = "100"
+
+# PRIVATE INPUTS
+revenue_value = "75000000"        # $750,000 in cents
+salt = "0xe0123456789abcdef6e0123456789abcdef6e0123456789abcdef6e0123456789"
+
+# Use case: Mid-size company with $750K revenue proving eligibility
+# for partnership requiring minimum $500K revenue

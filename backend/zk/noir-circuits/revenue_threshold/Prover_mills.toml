@@ -1,0 +1,14 @@
+# High Precision Mills Scenario
+# Demonstrate higher precision revenue verification using mills
+
+# PUBLIC INPUTS  
+commitment = "0x4e7f8091a2b3c4d5e6f708192a3b4c5d6e7f80a192a3b4c5d6e7f8091a2b3c4d"
+threshold_value = "250000000"     # $250,000 in mills (250K * 1000)
+unit_scale = "1000"               # Mills precision (1000 mills = $1)
+
+# PRIVATE INPUTS
+revenue_value = "375500000"       # $375,500 in mills (allows $0.001 precision)  
+salt = "0xf0123456789abcdef7f0123456789abcdef7f0123456789abcdef7f0123456789"
+
+# Use case: High-precision financial verification where sub-cent
+# accuracy is required for regulatory compliance

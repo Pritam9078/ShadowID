@@ -1,0 +1,16 @@
+{
+  "circuit_name": "age_proof",
+  "proof_valid": true,
+  "verified_at": "2025-11-22T14:37:14.402Z",
+  "proof_hash": "9219e603cf78fe325332948841489c812121fa0497ff6ae58f2dfdb4dd31d81d",
+  "public_inputs": [
+    "0x6155d56527189e2df90be1d5d7b660e80c8f8389c0e905ee8fe2fe724c99c9a4"
+  ],
+  "mock": true,
+  "metadata": {
+    "verifier": "dvote-verify-helper",
+    "platform": "Windows",
+    "node_version": "v22.11.0",
+    "proof_file": "C:\\Users\\HP\\Downloads\\DVote-main\\DVote-main\\zk\\proofs\\age_proof\\proof.json"
+  }
+}

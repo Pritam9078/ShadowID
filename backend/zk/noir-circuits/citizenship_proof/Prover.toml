@@ -1,0 +1,32 @@
+# Example inputs for Citizenship Proof Circuit
+# This file demonstrates how to prove Indian citizenship without revealing document details
+
+# Private inputs (never revealed on-chain)
+citizen_code = 356  # ISO 3166-1 code for India
+document_id = "0x9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba"  # Hash of passport/ID number
+salt = "0x1111111111111111111111111111111111111111111111111111111111111111"      # Random salt for privacy
+
+# Public inputs (visible on-chain)
+required_citizenship = 356  # Required: Indian citizenship
+
+# Expected outputs (calculated by the circuit)
+citizenship_valid = true
+citizenship_commitment = "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+
+# Country Code Reference:
+# India: 356
+# United States: 840
+# United Kingdom: 826
+# Canada: 124
+# Australia: 036
+# Germany: 276
+# France: 250
+# Japan: 392
+
+# Instructions:
+# 1. Replace citizen_code with your actual country code
+# 2. Replace document_id with hash of your passport/ID number
+# 3. Generate a random salt value
+# 4. Set required_citizenship to the country code needed by the DAO
+# 5. Run: nargo prove
+# 6. The proof verifies citizenship without revealing document details

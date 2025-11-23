@@ -1,0 +1,33 @@
+[package]
+name = "stylus-zk-examples"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Stylus SDK for Arbitrum integration
+stylus-sdk = "0.4.2"
+alloy-primitives = "0.3"
+
+# Core serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+hex = "0.4"
+
+# Cryptographic primitives
+sha3 = "0.10"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+export-abi = ["stylus-sdk/export-abi"]
+default = ["std"]
+std = []
+
+# Optimization for Stylus deployment
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true

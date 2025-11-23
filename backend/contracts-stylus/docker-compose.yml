@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  stylus-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: shadowid-stylus-dev
+    volumes:
+      # Mount the entire contracts directory
+      - .:/workspace
+      # Persist Cargo registry and git cache
+      - cargo-registry:/usr/local/cargo/registry
+      - cargo-git:/usr/local/cargo/git
+      # Persist target directory for faster builds
+      - target-cache:/workspace/target
+    environment:
+      - CARGO_TARGET_DIR=/workspace/target
+      - RUST_BACKTRACE=1
+      - RUST_LOG=debug
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    networks:
+      - stylus-network
+
+  # Optional: Hardhat node for testing
+  hardhat-node:
+    image: node:18-alpine
+    container_name: shadowid-hardhat-node
+    ports:
+      - "8545:8545"
+    volumes:
+      - ../backend:/app
+    working_dir: /app
+    command: npx hardhat node --hostname 0.0.0.0
+    networks:
+      - stylus-network
+
+volumes:
+  cargo-registry:
+  cargo-git:
+  target-cache:
+
+networks:
+  stylus-network:
+    driver: bridge

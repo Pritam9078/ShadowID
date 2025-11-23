@@ -1,0 +1,100 @@
+# Test Configuration for Business Registration Circuit
+# This file provides test cases for validating the circuit functionality
+
+[test_case_1.valid_registration]
+# Valid business registration with correct commitment
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+issued_by = "12345"
+expiry_ts = "1735689600"     # Dec 31, 2024
+current_time = "1701043200"  # Nov 27, 2023 (before expiry)
+biz_id = "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01"
+salt = "0x9f8e7d6c5b4a3928170f6e5d4c3b2a1908f7e6d5c4b3a29281706f5e4d3c2b1a"
+issuer_signature_r = "0x0"
+issuer_signature_s = "0x0"
+use_signature = "0"
+expected_result = "pass"
+
+[test_case_2.invalid_commitment]
+# Invalid commitment (doesn't match biz_id + salt)
+commitment = "0x0000000000000000000000000000000000000000000000000000000000000001"
+issued_by = "12345"
+expiry_ts = "1735689600"
+current_time = "1701043200"
+biz_id = "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01"
+salt = "0x9f8e7d6c5b4a3928170f6e5d4c3b2a1908f7e6d5c4b3a29281706f5e4d3c2b1a"
+issuer_signature_r = "0x0"
+issuer_signature_s = "0x0"
+use_signature = "0"
+expected_result = "fail"
+
+[test_case_3.expired_registration]
+# Registration has expired
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+issued_by = "12345"
+expiry_ts = "1609459200"     # Jan 1, 2021 (expired)
+current_time = "1701043200"  # Nov 27, 2023 (after expiry)
+biz_id = "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01"
+salt = "0x9f8e7d6c5b4a3928170f6e5d4c3b2a1908f7e6d5c4b3a29281706f5e4d3c2b1a"
+issuer_signature_r = "0x0"
+issuer_signature_s = "0x0"
+use_signature = "0"
+expected_result = "fail"
+
+[test_case_4.zero_business_id]
+# Invalid zero business ID
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+issued_by = "12345"
+expiry_ts = "1735689600"
+current_time = "1701043200"
+biz_id = "0x0"  # Invalid zero business ID
+salt = "0x9f8e7d6c5b4a3928170f6e5d4c3b2a1908f7e6d5c4b3a29281706f5e4d3c2b1a"
+issuer_signature_r = "0x0"
+issuer_signature_s = "0x0"
+use_signature = "0"
+expected_result = "fail"
+
+[test_case_5.zero_salt]
+# Invalid zero salt
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+issued_by = "12345"
+expiry_ts = "1735689600"
+current_time = "1701043200"
+biz_id = "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01"
+salt = "0x0"  # Invalid zero salt
+issuer_signature_r = "0x0"
+issuer_signature_s = "0x0"
+use_signature = "0"
+expected_result = "fail"
+
+[test_case_6.with_signature_validation]
+# Valid case with signature validation enabled
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+issued_by = "12345"
+expiry_ts = "1735689600"
+current_time = "1701043200"
+biz_id = "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01"
+salt = "0x9f8e7d6c5b4a3928170f6e5d4c3b2a1908f7e6d5c4b3a29281706f5e4d3c2b1a"
+issuer_signature_r = "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+issuer_signature_s = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+use_signature = "1"  # Enable signature validation
+expected_result = "pass"
+
+[test_case_7.signature_required_but_zero]
+# Signature validation enabled but signature components are zero
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+issued_by = "12345"
+expiry_ts = "1735689600"
+current_time = "1701043200"
+biz_id = "0x123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01"
+salt = "0x9f8e7d6c5b4a3928170f6e5d4c3b2a1908f7e6d5c4b3a29281706f5e4d3c2b1a"
+issuer_signature_r = "0x0"  # Zero signature components
+issuer_signature_s = "0x0"
+use_signature = "1"  # Enable signature validation
+expected_result = "fail"
+
+# Instructions for running tests:
+# 1. Copy individual test case inputs to Prover.toml
+# 2. Run: nargo prove
+# 3. Verify expected_result matches actual outcome
+# 4. For "fail" cases, the circuit should reject with assertion error
+# 5. For "pass" cases, proof should generate successfully

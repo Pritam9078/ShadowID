@@ -1,0 +1,20 @@
+# Revenue Threshold Circuit - Sample Inputs
+# Scenario: DAO governance eligibility ($1M minimum revenue)
+
+# PUBLIC INPUTS (visible to verifier)
+commitment = "0x1a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f708192a3b4c5d6e7f809"
+threshold_value = "100000000"    # $1,000,000 in cents (1M * 100)
+unit_scale = "100"               # Cents scaling (100 cents = $1)
+
+# PRIVATE INPUTS (hidden from verifier)
+revenue_value = "250000000"      # $2,500,000 in cents (2.5M * 100)
+salt = "0x9f8e7d6c5b4a3928170f6e5d4c3b2a1908f7e6d5c4b3a29281706f5e4d3c2b1a"
+
+# EXPLANATION:
+# This proves the business has revenue of at least $1M for DAO governance
+# without revealing the exact revenue amount ($2.5M in this case).
+# The commitment binds the revenue to prevent manipulation.
+
+# COMMITMENT CALCULATION:
+# commitment = Poseidon(250000000, salt)
+# The verifier can confirm this commitment was previously attested by an auditor.

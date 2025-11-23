@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/shadowid-logo.png" />
+    <link rel="icon" type="image/png" href="/shadowid-logo.png" />
+    <link rel="icon" type="image/x-icon" href="/shadowid-logo.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/shadowid-logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ShadowID - Privacy-Preserving Identity Verification Platform" />
+    <title>ShadowID - Privacy-Preserving Identity Verification</title>
+    
+    <!-- ENHANCED CRYPTO POLYFILL - MUST BE ABSOLUTE FIRST -->
+    <script>
+      (function() {
+        'use strict';
+        
+        // Enhanced randomUUID implementation with better fallbacks
+        const createRandomUUID = function() {
+          return function randomUUID() {
+            let bytes;
+            
+            // Try different methods for random bytes
+            if (window.crypto && window.crypto.getRandomValues) {
+              try {
+                bytes = new Uint8Array(16);
+                window.crypto.getRandomValues(bytes);
+              } catch (e) {
+                console.warn('crypto.getRandomValues failed, using Math.random fallback');
+                bytes = null;
+              }
+            }
+            
+            // Fallback to Math.random if crypto is unavailable
+            if (!bytes) {
+              bytes = new Uint8Array(16);
+              for (let i = 0; i < 16; i++) {
+                bytes[i] = Math.floor(Math.random() * 256);
+              }
+            }
+            
+            // Set version (4) and variant bits according to RFC 4122
+            bytes[6] = (bytes[6] & 0x0f) | 0x40; // Version 4
+            bytes[8] = (bytes[8] & 0x3f) | 0x80; // Variant bits
+            
+            // Convert to hex string and format as UUID
+            const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+            return [
+              hex.slice(0, 8),
+              hex.slice(8, 12),
+              hex.slice(12, 16),
+              hex.slice(16, 20),
+              hex.slice(20, 32)
+            ].join('-');
+          };
+        };
+        
+        const secureRandomUUID = createRandomUUID();
+        
+        // Comprehensive polyfill installation
+        function installPolyfills() {
+          const targets = [window, globalThis, self].filter(Boolean);
+          
+          targets.forEach(target => {
+            try {
+              // Ensure crypto object exists
+              if (!target.crypto) {
+                target.crypto = {};
+              }
+              
+              // Install randomUUID with multiple fallback strategies
+              if (!target.crypto.randomUUID) {
+                try {
+                  // Primary strategy: direct assignment
+                  target.crypto.randomUUID = secureRandomUUID;
+                  console.log('✅ crypto.randomUUID polyfill installed via direct assignment');
+                } catch (e1) {
+                  try {
+                    // Fallback: property descriptor
+                    Object.defineProperty(target.crypto, 'randomUUID', {
+                      value: secureRandomUUID,
+                      writable: true,
+                      configurable: true,
+                      enumerable: false
+                    });
+                    console.log('✅ crypto.randomUUID polyfill installed via defineProperty');
+                  } catch (e2) {
+                    console.warn('❌ Failed to install crypto.randomUUID polyfill:', e2);
+                  }
+                }
+              }
+              
+              // Ensure getRandomValues exists
+              if (!target.crypto.getRandomValues) {
+                target.crypto.getRandomValues = function(arr) {
+                  for (let i = 0; i < arr.length; i++) {
+                    arr[i] = Math.floor(Math.random() * 256);
+                  }
+                  return arr;
+                };
+              }
+            } catch (e) {
+              console.warn('Failed to install crypto polyfill on target:', e);
+            }
+          });
+        }
+        
+        // Install immediately
+        installPolyfills();
+        
+        // Also install when DOM loads
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', installPolyfills);
+        }
+        
+        // And when window loads
+        window.addEventListener('load', installPolyfills);
+        
+        // Periodic verification and reinstallation
+        let verificationCount = 0;
+        const verifyPolyfill = function() {
+          verificationCount++;
+          if (verificationCount > 10) return; // Stop after 10 attempts
+          
+          if (!window.crypto || !window.crypto.randomUUID) {
+            console.warn('🔧 crypto.randomUUID missing, reinstalling...');
+            installPolyfills();
+          }
+          
+          if (verificationCount <= 5) {
+            setTimeout(verifyPolyfill, 100);
+          }
+        };
+        
+        setTimeout(verifyPolyfill, 10);
+        
+        console.log('[ShadowID] Enhanced crypto polyfill installed successfully');
+      })();
+    </script>
+    
+    <!-- CRITICAL: Load crypto polyfill FIRST to prevent extension errors -->
+    <script src="/crypto-polyfill-fixed.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
