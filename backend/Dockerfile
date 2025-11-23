@@ -4,14 +4,14 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy backend package files only
-COPY backend/package*.json ./
+# Copy package files
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install --production
 
-# Copy backend source code
-COPY backend/ ./
+# Copy source code
+COPY . ./
 
 # Create necessary directories
 RUN mkdir -p prisma zk/proofs zk/verifiers

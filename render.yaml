@@ -1,9 +1,10 @@
 services:
-  # Backend API Service - Docker deployment
+  # Backend API Service - Docker deployment from backend directory
   - type: web
     name: shadowid-backend
     runtime: docker
-    dockerfilePath: ./backend/Dockerfile
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
