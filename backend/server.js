@@ -105,9 +105,9 @@ app.get('/health', (req, res) => {
 });
 
 // API Routes
-app.use('/api/proposals', require('./routes/proposalRoutes'));
-app.use('/api/treasury', require('./routes/treasuryRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
+// app.use('/api/proposals', require('./routes/proposalRoutes')); // Disabled - uses Prisma
+// app.use('/api/treasury', require('./routes/treasuryRoutes')); // Disabled - uses Prisma
+// app.use('/api/users', require('./routes/userRoutes')); // Disabled - uses Prisma
 app.use('/api/ipfs', require('./routes/ipfsRoutes'));
 app.use('/api/pinata', require('./routes/pinataRoutes'));
 app.use('/api/alchemy', require('./routes/alchemyRoutes'));
@@ -127,7 +127,7 @@ const { router: webhookRouter, setBroadcastFunction } = require('./routes/webhoo
 app.use('/api/webhooks', webhookRouter);
 
 // Enhanced treasury routes
-app.use('/api/treasury/enhanced', require('./routes/treasuryAnalyticsRoutes'));
+// app.use('/api/treasury/enhanced', require('./routes/treasuryAnalyticsRoutes')); // Disabled - may use Prisma
 
 // Analytics endpoints
 app.get('/api/analytics', async (req, res) => {
