@@ -1,10 +1,9 @@
 services:
-  # Backend API Service - Simple deployment from root
+  # Backend API Service - Docker deployment
   - type: web
     name: shadowid-backend
-    runtime: node
-    buildCommand: npm install
-    startCommand: npm start
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
