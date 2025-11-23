@@ -1,0 +1,16 @@
+# Render configuration for backend only
+services:
+  - type: web
+    name: shadowid-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    plan: starter
+    region: oregon
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
