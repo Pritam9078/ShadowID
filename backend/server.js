@@ -293,11 +293,11 @@ app.get('*', (req, res) => {
 });
 
 // Create HTTP server
-const server = app.listen(PORT, '127.0.0.1', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 DVote Backend Server running on port ${PORT}`);
   console.log(`📡 WebSocket server ready`);
   console.log(`🌐 CORS enabled for frontend origins`);
-  console.log(`📊 Health check: http://localhost:${PORT}/health`);
+  console.log(`📊 Health check: http://0.0.0.0:${PORT}/health`);
 });
 
 // Add error handlers for the server
@@ -309,7 +309,7 @@ server.on('error', (error) => {
 });
 
 server.on('listening', () => {
-  console.log(`✅ Server is successfully listening on 127.0.0.1:${PORT}`);
+  console.log(`✅ Server is successfully listening on 0.0.0.0:${PORT}`);
 });
 
 // WebSocket Server

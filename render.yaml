@@ -1,10 +1,11 @@
 services:
-  # Backend API Service
+  # Backend API Service only - Deploy from backend directory
   - type: web
     name: shadowid-backend
     runtime: node
-    buildCommand: npm run install-backend
-    startCommand: npm run start-backend
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
